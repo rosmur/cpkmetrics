@@ -12,7 +12,7 @@ def print_table(data):
     # Create the format string
     row_format = "| {:<" + str(col_widths[0]) + "} | {:<" + str(col_widths[1]) + "} |"
 
-    # Print header
+    # Print header and divider
     print(row_format.format(*col_names))
     print("|" + "-" * (sum(col_widths) + 5) + "|")
 
