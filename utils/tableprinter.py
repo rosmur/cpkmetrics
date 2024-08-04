@@ -1,8 +1,12 @@
 def print_table(data):
     col_names = ["Metric", "Value"]
 
-    # Convert dictionary to list of lists
-    table_data = [[k, v] for k, v in data.items()]
+    # Convert dictionary to list of lists, formatting floats to 3 decimal place
+    table_data = []
+    for k, v in data.items():
+        if isinstance(v, float):
+            v = f"{v:.3f}"
+        table_data.append([k, v])
 
     # Find the maximum width for each column
     col_widths = [
