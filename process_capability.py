@@ -40,6 +40,9 @@ class ProcessCapability:
         self._process_accuracy = (self._mean - (self._usl + self._lsl) / 2) / (
             self._usl - self._lsl
         )
+        self._sigma_level = int(
+            (self.process_capability_index * 3) // 1
+        )  # Extracting quotient and then making an integer
         self._process_capability_index_rating = self._calculate_cpk_rating()
         self._process_accuracy_rating = self._calculate_cpa_rating()
 
@@ -49,6 +52,7 @@ class ProcessCapability:
             "Process Capability Upper": self.process_capability_upper,
             "Process Capability Lower": self.process_capability_lower,
             "Process Accuracy": self.process_accuracy,
+            "Process Sigma Level": f"{self.sigma_level}\u03c3",
             "Process Capability Index Rating": self.process_capability_index_rating,
             "Process Accuracy Rating": self.process_accuracy_rating,
         }
@@ -88,6 +92,21 @@ class ProcessCapability:
     @property
     def process_accuracy_rating(self):
         return self._process_accuracy_rating
+
+    @property
+    def sigma_level(self):
+        """
+        The sigma level that the process is operating at: it is 3 Sigma level if it is 1-1.33, 4 Sigma between 1.33-1.67, 5 Sigma between 1.67-2 and so forth.
+        It is numerically effectively the value of Cpk if there was no division by 3, i.e. it is equal to Cpk multiplied by 3 and rounded down to the nearest integer.
+        """
+        if self._sigma_level <= 0:
+            return "Completely out of specification"
+        elif 0 < self._sigma_level <= 9:
+            return self._sigma_level
+        elif self._sigma_level > 3:
+            return "Abnormally High"
+        else:
+            raise ValueError
 
     def _calculate_cpk_rating(self) -> str:
         """
