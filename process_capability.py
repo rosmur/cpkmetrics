@@ -24,22 +24,26 @@ class ProcessCapability:
         - lsl (float): The lower specification limit.
         """
         if all(isinstance(arg, (float, int)) for arg in [mean, stddev, usl, lsl]):
-            self.mean = mean
-            self.stddev = stddev
-            self.usl = usl
-            self.lsl = lsl
+            self._mean = mean
+            self._stddev = stddev
+            self._usl = usl
+            self._lsl = lsl
         else:
             raise TypeError("All arguments must be of type integer or float")
 
-        self.process_capability = self.Cp()
-        self.process_capability_index = self.Cpk()
-        self.process_capability_upper = self.Cpu()
-        self.process_capability_lower = self.Cpl()
-        self.process_accuracy = self.Cpa()
-        self.process_capability_index_rating = self.Cpk_rating()
-        self.process_accuracy_rating = self.Cpa_rating()
+        self._process_capability = (self._usl - self._lsl) / (6 * self._stddev)
+        self._process_capability_upper = (self._usl - self._mean) / (3 * self._stddev)
+        self._process_capability_lower = (self._mean - self._lsl) / (3 * self._stddev)
+        self._process_capability_index = min(
+            self._process_capability_upper, self._process_capability_lower
+        )
+        self._process_accuracy = (self._mean - (self._usl + self._lsl) / 2) / (
+            self._usl - self._lsl
+        )
+        self._process_capability_index_rating = self._calculate_cpk_rating()
+        self._process_accuracy_rating = self._calculate_cpa_rating()
 
-        self.metrics = {
+        self._metrics = {
             "Process Capability": self.process_capability,
             "Process Capability Index": self.process_capability_index,
             "Process Capability Upper": self.process_capability_upper,
@@ -52,68 +56,47 @@ class ProcessCapability:
         if print_results:
             print_table(self.metrics)
 
-    #     self.metrics()
+    # All metrics items calculated above are updated to read-only properties from attributes with the following 8 decorators
+    @property
+    def metrics(self):
+        return self._metrics
 
-    # @property
-    # def metrics(self):
-    #     return self._metrics
+    @property
+    def process_capability(self):
+        return self._process_capability
 
-    def Cp(self):
+    @property
+    def process_capability_upper(self):
+        return self._process_capability_upper
+
+    @property
+    def process_capability_lower(self):
+        return self._process_capability_lower
+
+    @property
+    def process_capability_index(self):
+        return self._process_capability_index
+
+    @property
+    def process_accuracy(self):
+        return self._process_accuracy
+
+    @property
+    def process_capability_index_rating(self):
+        return self._process_capability_index_rating
+
+    @property
+    def process_accuracy_rating(self):
+        return self._process_accuracy_rating
+
+    def _calculate_cpk_rating(self) -> str:
         """
-        Calculate Cp (Process Capability).
-
-        Returns:
-        - float: The process capability value.
-        """
-        return (self.usl - self.lsl) / (6 * self.stddev)
-
-    def Cpu(self):
-        """
-        Calculate Cpu (Process Capability Upper).
-
-        Returns:
-        - float: The process capability upper value.
-        """
-        return (self.usl - self.mean) / (3 * self.stddev)
-
-    def Cpl(self):
-        """
-        Calculate Cpl (Process Capability Lower).
-
-        Returns:
-        - float: The process capability lower value.
-        """
-        return (self.mean - self.lsl) / (3 * self.stddev)
-
-    def Cpk(self):
-        """
-        Calculate Cpk (Process Capability Index).
-
-        Returns:
-        - float: The process capability index value.
-        """
-        return min(
-            (self.usl - self.mean) / (3 * self.stddev),
-            (self.mean - self.lsl) / (3 * self.stddev),
-        )
-
-    def Cpa(self):
-        """
-        Calculate Cpa (Process Capability Accuracy).
-
-        Returns:
-        - float: The process capability accuracy value.
-        """
-        return (self.mean - (self.usl + self.lsl) / 2) / (self.usl - self.lsl)
-
-    def Cpk_rating(self):
-        """
-        Rate the Cpk value.
+        Calculate the rating for the Cpk value.
 
         Returns:
         - str: The rating of the Cpk value.
         """
-        Cpk = self.Cpk()
+        Cpk = self.process_capability_index
         if Cpk <= 0:
             return "Abnormally Poor"
         elif 0 < Cpk <= 0.5:
@@ -131,14 +114,14 @@ class ProcessCapability:
         else:
             raise ValueError
 
-    def Cpa_rating(self):
+    def _calculate_cpa_rating(self) -> str:
         """
-        Rate the Cpa value.
+        Calculate the rating for the Cpa value.
 
         Returns:
         - str: The rating of the Cpa value.
         """
-        Cpa = self.Cpa()
+        Cpa = self.process_accuracy
         if Cpa < 0:
             return "Level A"
         elif Cpa < 0.125:
