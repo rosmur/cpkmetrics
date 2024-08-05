@@ -31,25 +31,32 @@ class ProcessCapability:
         else:
             raise TypeError("All arguments must be of type integer or float")
 
-        process_capability = self.Cp()
-        process_capability_index = self.Cpk()
-        process_capability_upper = self.Cpu()
-        process_capability_lower = self.Cpl()
-        process_accuracy = self.Cpa()
-        process_capability_index_rating = self.Cpk_rating()
-        process_accuracy_rating = self.Cpa_rating()
+        self.process_capability = self.Cp()
+        self.process_capability_index = self.Cpk()
+        self.process_capability_upper = self.Cpu()
+        self.process_capability_lower = self.Cpl()
+        self.process_accuracy = self.Cpa()
+        self.process_capability_index_rating = self.Cpk_rating()
+        self.process_accuracy_rating = self.Cpa_rating()
 
-        pc_results = {
-            "Process Capability": process_capability,
-            "Process Capability Index": process_capability_index,
-            "Process Capability Upper": process_capability_upper,
-            "Process Capability Lower": process_capability_lower,
-            "Process Accuracy": process_accuracy,
-            "Process Capability Index Rating": process_capability_index_rating,
-            "Process Accuracy Rating": process_accuracy_rating,
+        self.metrics = {
+            "Process Capability": self.process_capability,
+            "Process Capability Index": self.process_capability_index,
+            "Process Capability Upper": self.process_capability_upper,
+            "Process Capability Lower": self.process_capability_lower,
+            "Process Accuracy": self.process_accuracy,
+            "Process Capability Index Rating": self.process_capability_index_rating,
+            "Process Accuracy Rating": self.process_accuracy_rating,
         }
 
-        print_table(pc_results)
+        if print_results:
+            print_table(self.metrics)
+
+    #     self.metrics()
+
+    # @property
+    # def metrics(self):
+    #     return self._metrics
 
     def Cp(self):
         """
