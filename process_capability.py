@@ -62,7 +62,7 @@ class ProcessCapability:
 
     # All metrics items calculated above are updated to read-only properties from attributes with the following 8 decorators
     @property
-    def metrics(self):
+    def metrics(self) -> dict:
         return self._metrics
 
     @property
@@ -141,11 +141,11 @@ class ProcessCapability:
         - str: The rating of the Cpa value.
         """
         Cpa = self.process_accuracy
-        if Cpa < 0:
+        if Cpa < 0.125:
             return "Level A"
-        elif Cpa < 0.125:
-            return "Level B"
         elif Cpa < 0.25:
+            return "Level B"
+        elif Cpa < 0.5:
             return "Level C"
         else:
             return "Level D"
