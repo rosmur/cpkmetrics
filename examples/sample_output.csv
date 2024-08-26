@@ -1,0 +1,7 @@
+Item,mean,stddev,USL,LSL,Unnamed: 5,Unnamed: 6,Process Capability,Process Capability Index,Process Capability Upper,Process Capability Lower,Process Accuracy,Process Sigma Level,Process Capability Index Rating,Process Accuracy Rating
+brightness,172.3,12.4,,130.0,,,,1.1370967741935487,,1.1370967741935487,,3σ,Good,
+voltage,2.75,0.2,3.2,,,,,0.7500000000000002,0.7500000000000002,,,2σ,Low,
+colorpoint_x,0.332,0.03,0.4,0.3,,,0.5555555555555558,0.3555555555555559,0.7555555555555556,0.3555555555555559,-0.17999999999999955,1σ,Poor,Level B
+colorpoint_y,0.325,0.04,0.39,0.29,,,0.4166666666666668,0.29166666666666696,0.5416666666666667,0.29166666666666696,-0.14999999999999952,Completely out of specification,Poor,Level B
+CRI,73.0,1.4,77.5,69.5,,,0.9523809523809526,0.8333333333333335,1.0714285714285716,0.8333333333333335,-0.0625,2σ,Low,Level A
+color_temperature,5027.0,20.0,,,,,,,,,,,,
