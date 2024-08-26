@@ -14,7 +14,7 @@ print(
     f"All computed items are available as a {type(pc.metrics)} through the metrics method. \n \n"
 )
 
-# You can access individual metrics by key:
+# You can access specific metrics by key:
 cpk = pc.metrics["Process Capability Index"]
 print(f"The Cpk is {round(cpk,2)} \n \n")
 
