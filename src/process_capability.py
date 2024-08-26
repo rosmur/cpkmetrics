@@ -1,4 +1,5 @@
-from utils.tableprinter import print_table
+from src.utils.tableprinter import print_table
+import math
 
 
 class ProcessCapability:
@@ -22,6 +23,9 @@ class ProcessCapability:
         - stddev (float | int): The standard deviation of the process.
         - usl (float | int | None): The upper specification limit.
         - lsl (float | int | None): The lower specification limit.
+
+        Raises:
+        - TypeError: If any of the arguments are not of type integer or float.
         """
 
         # Type checking prior to assignment
@@ -35,6 +39,12 @@ class ProcessCapability:
             self._lsl = lsl
         else:
             raise TypeError("All arguments must be of type integer or float")
+
+        # Set USL/LSL to None if it is an empty value (NaN). This makes the subsequent cleaner/more readable.
+        if math.isnan(self._usl):
+            self._usl = None
+        if math.isnan(self._lsl):
+            self._lsl = None
 
         # Calculate Cp and Cpa
         if self._usl is not None and self._lsl is not None:
@@ -100,7 +110,7 @@ class ProcessCapability:
             print(
                 "Both USL and LSL have not been provided. Process capability metrics cannot be computed"
             )
-        else:
+        elif print_results:
             print_table(self.metrics)
 
     # All metrics items calculated above are made available as read-only properties from attributes with the following 8 decorators
@@ -185,12 +195,12 @@ class ProcessCapability:
         Returns:
         - str: The rating of the Cpa value.
         """
-        Cpa = self.process_accuracy
-        if Cpa < 0.125:
+        cpa = abs(self.process_accuracy)
+        if cpa < 0.125:
             return "Level A"
-        elif Cpa < 0.25:
+        elif cpa < 0.25:
             return "Level B"
-        elif Cpa < 0.5:
+        elif cpa < 0.5:
             return "Level C"
         else:
             return "Level D"
