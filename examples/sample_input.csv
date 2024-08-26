@@ -1,0 +1,7 @@
+Item,mean,stddev,USL,LSL,,
+brightness,172.3,12.4,,130,,
+voltage,2.75,0.2,3.2,,,
+colorpoint_x,0.332,0.03,0.4,0.3,,
+colorpoint_y,0.325,0.04,0.39,0.29,,
+CRI,73,1.4,77.5,69.5,,
+color_temperature,5027,20,,,,
