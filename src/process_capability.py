@@ -103,7 +103,7 @@ class ProcessCapability:
         else:
             print_table(self.metrics)
 
-    # All metrics items calculated above are updated to read-only properties from attributes with the following 8 decorators
+    # All metrics items calculated above are made available as read-only properties from attributes with the following 8 decorators
     @property
     def metrics(self) -> dict:
         return self._metrics
