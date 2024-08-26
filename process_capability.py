@@ -10,20 +10,25 @@ class ProcessCapability:
         self,
         mean: float | int,
         stddev: float | int,
-        usl: float | int,
-        lsl: float | int,
+        usl: float | int | None = None,
+        lsl: float | int | None = None,
         print_results=True,
     ):
         """
         Initialize the ProcessCapability class with the necessary parameters.
 
         Parameters:
-        - mean (float): The mean of the process.
-        - stddev (float): The standard deviation of the process.
-        - usl (float): The upper specification limit.
-        - lsl (float): The lower specification limit.
+        - mean (float | int): The mean of the process.
+        - stddev (float | int): The standard deviation of the process.
+        - usl (float | int | None): The upper specification limit.
+        - lsl (float | int | None): The lower specification limit.
         """
-        if all(isinstance(arg, (float, int)) for arg in [mean, stddev, usl, lsl]):
+
+        # Type checking prior to assignment
+        if all(
+            isinstance(arg, (float, int, type(None)))
+            for arg in [mean, stddev, usl, lsl]
+        ):
             self._mean = mean
             self._stddev = stddev
             self._usl = usl
@@ -31,20 +36,54 @@ class ProcessCapability:
         else:
             raise TypeError("All arguments must be of type integer or float")
 
-        self._process_capability = (self._usl - self._lsl) / (6 * self._stddev)
-        self._process_capability_upper = (self._usl - self._mean) / (3 * self._stddev)
-        self._process_capability_lower = (self._mean - self._lsl) / (3 * self._stddev)
-        self._process_capability_index = min(
-            self._process_capability_upper, self._process_capability_lower
+        # Calculate Cp and Cpa
+        if self._usl is not None and self._lsl is not None:
+            self._process_capability = (self._usl - self._lsl) / (6 * self._stddev)
+            self._process_accuracy = (self._mean - (self._usl + self._lsl) / 2) / (
+                self._usl - self._lsl
+            )
+            self._process_accuracy_rating = self._calculate_cpa_rating()
+        else:
+            self._process_capability = None
+            self._process_accuracy = None
+            self._process_accuracy_rating = None
+
+        # Calculate Cpu, Cpl
+        self._process_capability_upper = (
+            (self._usl - self._mean) / (3 * self._stddev)
+            if self._usl is not None
+            else None
         )
-        self._process_accuracy = (self._mean - (self._usl + self._lsl) / 2) / (
-            self._usl - self._lsl
+        self._process_capability_lower = (
+            (self._mean - self._lsl) / (3 * self._stddev)
+            if self._lsl is not None
+            else None
         )
-        self._sigma_level = int(
-            (self.process_capability_index * 3) // 1
-        )  # Extracting quotient and then making an integer
-        self._process_capability_index_rating = self._calculate_cpk_rating()
-        self._process_accuracy_rating = self._calculate_cpa_rating()
+
+        # Calculate Cpk
+        if (
+            self._process_capability_upper is not None
+            and self._process_capability_lower is not None
+        ):
+            self._process_capability_index = min(
+                self._process_capability_upper, self._process_capability_lower
+            )
+        elif self._process_capability_upper is not None:
+            self._process_capability_index = self._process_capability_upper
+        elif self._process_capability_lower is not None:
+            self._process_capability_index = self._process_capability_lower
+        else:  # Case when both USL and LSL are None
+            self._process_capability_index = None
+
+        # Calculate Sigma Level and Cpk Rating
+        if self.process_capability_index is not None:
+            self._sigma_level = int(
+                (self.process_capability_index * 3) // 1
+            )  # Extracting quotient and then making an integer
+            self._process_capability_index_rating = self._calculate_cpk_rating()
+        else:
+            self._sigma_level = None
+            self._process_capability_index_rating = None
 
         self._metrics = {
             "Process Capability": self.process_capability,
@@ -52,12 +91,16 @@ class ProcessCapability:
             "Process Capability Upper": self.process_capability_upper,
             "Process Capability Lower": self.process_capability_lower,
             "Process Accuracy": self.process_accuracy,
-            "Process Sigma Level": f"{self.sigma_level}\u03c3",
+            "Process Sigma Level": self.sigma_level,
             "Process Capability Index Rating": self.process_capability_index_rating,
             "Process Accuracy Rating": self.process_accuracy_rating,
         }
 
-        if print_results:
+        if print_results and self._usl is None and self._lsl is None:
+            print(
+                "Both USL and LSL have not been provided. Process capability metrics cannot be computed"
+            )
+        else:
             print_table(self.metrics)
 
     # All metrics items calculated above are updated to read-only properties from attributes with the following 8 decorators
@@ -99,10 +142,12 @@ class ProcessCapability:
         The sigma level that the process is operating at: it is 3 Sigma level if it is 1-1.33, 4 Sigma between 1.33-1.67, 5 Sigma between 1.67-2 and so forth.
         It is numerically effectively the value of Cpk if there was no division by 3, i.e. it is equal to Cpk multiplied by 3 and rounded down to the nearest integer.
         """
-        if self._sigma_level <= 0:
+        if self._sigma_level is None:
+            return None
+        elif self._sigma_level <= 0:
             return "Completely out of specification"
         elif 0 < self._sigma_level <= 9:
-            return self._sigma_level
+            return f"{self._sigma_level}\u03c3"
         elif self._sigma_level > 3:
             return "Abnormally High"
         else:
