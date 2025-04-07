@@ -119,31 +119,31 @@ class ProcessCapability:
         return self._metrics
 
     @property
-    def process_capability(self):
+    def process_capability(self) -> float | None:
         return self._process_capability
 
     @property
-    def process_capability_upper(self):
+    def process_capability_upper(self) -> float | None:
         return self._process_capability_upper
 
     @property
-    def process_capability_lower(self):
+    def process_capability_lower(self) -> float | None:
         return self._process_capability_lower
 
     @property
-    def process_capability_index(self):
+    def process_capability_index(self) -> float | None:
         return self._process_capability_index
 
     @property
-    def process_accuracy(self):
+    def process_accuracy(self) -> float | None:
         return self._process_accuracy
 
     @property
-    def process_capability_index_rating(self):
+    def process_capability_index_rating(self) -> str | None:
         return self._process_capability_index_rating
 
     @property
-    def process_accuracy_rating(self):
+    def process_accuracy_rating(self) -> str | None:
         return self._process_accuracy_rating
 
     @property
