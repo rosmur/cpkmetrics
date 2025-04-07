@@ -1,7 +1,7 @@
 [project]
 name = "cpkmetrics"
 version = "0.1.0"
-description = "Add your description here"
+description = "A featherweight library to compute process capability metrics"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = []
