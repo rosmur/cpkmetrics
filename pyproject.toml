@@ -5,3 +5,35 @@ description = "A featherweight library to compute process capability metrics"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = []
+
+[tool.mypy]
+mypy_path = "src"
+exclude = ['^build/', '^.venv/', '^tests/', 'temp/', 'examples/']
+
+[tool.ruff]
+line-length = 100
+
+[tool.interrogate]
+ignore-init-method = false
+ignore-init-module = true
+ignore-magic = false
+ignore-semiprivate = false
+ignore-private = false
+ignore-property-decorators = false
+ignore-module = false
+ignore-nested-functions = false
+ignore-nested-classes = false
+ignore-setters = false
+ignore-overloaded-functions = false
+fail-under = 90
+# example values
+exclude = ["examples", "tests", "temp"]
+# example regex
+ignore-regex = ["^get$", "^mock_.*", ".*BaseClass.*"]
+ext = []
+# possible values: 0 (minimal output), 1 (-v), 2 (-vv)
+verbose = 1
+quiet = false
+whitelist-regex = []
+color = true
+omit-covered-files = false
