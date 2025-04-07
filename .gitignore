@@ -1,3 +1,5 @@
 /trialstuff
 __pycache__/
 /.vscode
+pcp
+.DS_Store
