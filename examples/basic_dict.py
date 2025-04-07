@@ -10,9 +10,7 @@ LSL = 6
 pc = ProcessCapability(mean, stddev, USL, LSL, print_results=False)
 
 # The calculated metrics are available to access as a dictionary through the metrics method:
-print(
-    f"All computed items are available as a {type(pc.metrics)} through the metrics method. \n \n"
-)
+print(f"All computed items are available as a {type(pc.metrics)} through the metrics method. \n \n")
 
 # You can access specific metrics by key:
 cpk = pc.metrics["Process Capability Index"]
