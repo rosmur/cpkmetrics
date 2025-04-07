@@ -1,7 +1,7 @@
 # This is straight codegen output with known mistake for Cpk rating? Need build up to do multiple input cases.
 
 import unittest
-from process_capability import ProcessCapability
+from src.cpkmetrics.process_capability import ProcessCapability
 
 
 class TestProcessCapability(unittest.TestCase):

@@ -1,4 +1,4 @@
-from process_capability import ProcessCapability
+from src.cpkmetrics.process_capability import ProcessCapability
 
 # Example values for mean, stddev, USL, and LSL
 mean = 10
@@ -16,7 +16,7 @@ print(
 
 # You can access specific metrics by key:
 cpk = pc.metrics["Process Capability Index"]
-print(f"The Cpk is {round(cpk,2)} \n \n")
+print(f"The Cpk is {round(cpk, 2)} \n \n")
 
 # Or you can iterate through the metrics dictionary:
 for key, value in pc.metrics.items():

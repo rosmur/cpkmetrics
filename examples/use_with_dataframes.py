@@ -3,7 +3,7 @@ The ProcessCapability package can be used with DataFrames containing statistics 
 """
 
 import pandas as pd
-from src.process_capability import ProcessCapability
+from src.cpkmetrics.process_capability import ProcessCapability
 
 df = pd.read_csv("examples/sample_input.csv")
 

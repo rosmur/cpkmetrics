@@ -1,4 +1,4 @@
-from src.utils.tableprinter import print_table
+from .utils.tableprinter import print_table
 import math
 
 
