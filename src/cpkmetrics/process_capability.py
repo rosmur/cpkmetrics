@@ -9,23 +9,24 @@ class ProcessCapability:
 
     def __init__(
         self,
-        mean: float | int,
-        stddev: float | int,
-        usl: float | int | None = None,
-        lsl: float | int | None = None,
+        mean: float,
+        stddev: float,
+        usl: float = None,
+        lsl: float = None,
         print_results=True,
     ):
         """
         Initialize the ProcessCapability class with the necessary parameters.
 
-        Parameters:
-        - mean (float | int): The mean of the process.
-        - stddev (float | int): The standard deviation of the process.
-        - usl (float | int | None): The upper specification limit.
-        - lsl (float | int | None): The lower specification limit.
+        Args:
+            mean: The mean of the process data.
+            stddev: The standard deviation of the process data.
+            usl: The upper specification limit. Defaults to None.
+            lsl: The lower specification limit. Defaults to None.
+            print_results: If True, print calculated metrics. Defaults to True.
 
         Raises:
-        - TypeError: If any of the arguments are not of type integer or float.
+        - TypeError: If any of the arguments are not of type float.
         """
 
         # Type checking prior to assignment
@@ -40,12 +41,6 @@ class ProcessCapability:
         else:
             raise TypeError("All arguments must be of type integer or float")
 
-        # Set USL/LSL to None if it is an empty value (NaN). This makes the subsequent cleaner/more readable.
-        if math.isnan(self._usl):
-            self._usl = None
-        if math.isnan(self._lsl):
-            self._lsl = None
-
         # Calculate Cp and Cpa
         if self._usl is not None and self._lsl is not None:
             self._process_capability = (self._usl - self._lsl) / (6 * self._stddev)
@@ -54,9 +49,9 @@ class ProcessCapability:
             )
             self._process_accuracy_rating = self._calculate_cpa_rating()
         else:
-            self._process_capability = None
-            self._process_accuracy = None
-            self._process_accuracy_rating = None
+            raise ValueError(
+                "Both USL and LSL have not been set; process capability metrics cannot be computed"
+            )
 
         # Calculate Cpu, Cpl
         self._process_capability_upper = (
@@ -106,11 +101,7 @@ class ProcessCapability:
             "Process Accuracy Rating": self.process_accuracy_rating,
         }
 
-        if print_results and self._usl is None and self._lsl is None:
-            print(
-                "Both USL and LSL have not been provided. Process capability metrics cannot be computed"
-            )
-        elif print_results:
+        if print_results:
             print_table(self.metrics)
 
     # All metrics items calculated above are made available as read-only properties from attributes with the following 8 decorators
