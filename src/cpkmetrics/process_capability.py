@@ -1,3 +1,10 @@
+"""
+Process Capability
+
+This module defines the main logic for the process capability class. Minimal design with no third party dependencies to enable an ultra light weight (a.k.a feather weight) and fast package
+
+"""
+
 from typing import Optional
 
 from .utils.tableprinter import print_table
