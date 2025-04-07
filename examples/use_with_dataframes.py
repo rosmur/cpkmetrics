@@ -9,9 +9,7 @@ df = pd.read_csv("examples/sample_input.csv")
 
 
 def calculate_metrics(row):
-    pc = ProcessCapability(
-        row["mean"], row["stddev"], row["USL"], row["LSL"], print_results=False
-    )
+    pc = ProcessCapability(row["mean"], row["stddev"], row["USL"], row["LSL"], print_results=False)
     return pd.Series(pc.metrics)
 
 
