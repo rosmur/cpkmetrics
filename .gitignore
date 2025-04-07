@@ -1,5 +1,5 @@
 temp
+.venv
 __pycache__/
 /.vscode
-pcp
 .DS_Store
