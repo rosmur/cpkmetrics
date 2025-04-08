@@ -1,5 +1,7 @@
 temp
 .venv
 __pycache__/
+.mypy_cache
+.ruff_cache
 /.vscode
 .DS_Store
