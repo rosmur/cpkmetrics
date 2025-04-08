@@ -37,3 +37,9 @@ quiet = false
 whitelist-regex = []
 color = true
 omit-covered-files = false
+
+[dependency-groups]
+dev = ["pytest>=8.3.5"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
