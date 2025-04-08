@@ -12,51 +12,77 @@ Execute the following command in the terminal:
 pip install cpkmetrics
 ```
 
-NOTE: For macOS, use `pip3` if needed.
+NOTE: For macOS/Linux, use `pip3` if needed.
+
+The other options for installation are:
 
 ### Installation/Run with uv
 
-Install with the uv package manager:
+<details>
+<summary>Click to expand</summary>
+
+Install with the uv package manager (modern python tooling standard):
 
 ```bash
 uv pip install cpkmetrics
 ```
 
-Alternatively, you can run directly by using uv's `--with` feature.
-
-```bash
-uv run my_python_code.py --with cpkmetrics
-```
+</details>
 
 ### Install From Source
 
+<details>
+<summary>Click to expand</summary>
 Clone this repo and install:
 
 ```bash
-git clone
-[OPTIONAL] python -m venv create?
+git clone https://github.com/your-username/cpkmetrics.git  # Replace with actual repo URL
 cd cpkmetrics
+python -m venv venv # Optically create virtual environment - not necessary given the lack of dependencies in this package
+source venv/bin/activate # On Windows: .\venv\Scripts\activate (Ignore if you dont create a venv)
 pip install -e .
+```
+
+</details>
+
+------
+
+Alternatively, you can also forgo installation and run directly by using the `uv` package manager's `--with` feature.
+
+```bash
+uv run --with cpkmetrics my_python_code.py 
 ```
 
 ## Usage
 
-Further examples can be found [here](examples)
+A basic example calculating process capability metrics for a given mean, standard deviation and spec limits:
+
+```python
+from src.cpkmetrics.process_capability import ProcessCapability
+
+# Example values for mean, stddev, USL, and LSL
+mean = 10
+stddev = 1
+USL = 14
+LSL = 6
+
+# Create an instance of the ProcessCapability class with the provided parameters. Instantiation also automatically prints results to the terminal (unless you pass print_results=False arg)
+pc = ProcessCapability(mean, stddev, USL, LSL)
+
+# You can also access individual items directly through the corrresponding property
+cpk = pc.process_capability_index
+
+print(f"The Cpk is {round(cpk, 2)}")
+#OUTPUT: The Cpk is 1.33
+```
+
+Further examples can be found [here](examples) including compatability with dataframes.
 
 ## Roadmap
 
-- Natural language results
-- Skewness and Kurtosis
+- Skewness and Kurtosis metrics
 - Allow setting threshold values for Cpk and Cpa Ratings
-
-## To-Do
-
-- Need to fix process accuracy formula and ratings
-
-### Tests
-
-- Create a main tester. Something with all types of inputs that should pass and all types of outputs that should fail.
-- Confirm setting values fails
+- Natural language results
 
 ## Contributing
 
