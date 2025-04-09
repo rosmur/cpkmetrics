@@ -58,7 +58,7 @@ uv run --with cpkmetrics my_python_code.py
 A basic example calculating process capability metrics for a given mean, standard deviation and spec limits:
 
 ```python
-from src.cpkmetrics.process_capability import ProcessCapability
+from cpkmetrics.process_capability import ProcessCapability
 
 # Example values for mean, stddev, USL, and LSL
 mean = 10
@@ -92,10 +92,11 @@ Contributions are encouraged and welcome. Please note that the intent of this pa
 
 This project intends to have the smallest amount of code possible without sacrificing good design, structure and robust engineering practices that will allow future functionality, extensibility and forkability.
 
-Documentation is copious - to maximize accessibility to AI/ML/SW engineers unfamiliar with statistical process control and for manufacturing/process/hardware engineers unfamiliar with python.
+Documentation is copious - to maximize accessibility to AI/ML/SW engineers unfamiliar with statistical process control and for manufacturing/process/hardware engineers unfamiliar with python. Docstrings are detailed to allow for clarity as well as learning. In-line comments document code logic and design notes/decisions.
 
 Project uses a modern toolchain to assist in this:
 
 - **Project Management and Build:** pyproject.toml compliant to PEP 751 though `uv`
 - **Testing:** `pytest` and `coverage`
 - **Code Quality:** Linting, Formatting through `ruff` Static Analysis through `mypy`. Enforced through pre-commmit and GitHub Actions
+- **Documentation:** Docstrings are enforced with `interrogate` at 90% threshold
