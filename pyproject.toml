@@ -1,10 +1,27 @@
 [project]
 name = "cpkmetrics"
 version = "0.1.0"
+authors = [{ name = "Roshan M." }]
 description = "A featherweight library to compute process capability metrics"
 readme = "README.md"
 requires-python = ">=3.10"
+license = "Apache 2.0"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",                  # Choose your license
+    "Operating System :: OS Independent",
+    "Development Status :: 3 - Alpha",                         # Or Beta, Production/Stable
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: HW/Manufacturing/Quality Engineers",
+    "Topic :: Scientific/Engineering",
+]
+keywords = ["process capability", "cpk", "six sigma", "statistics"]
 dependencies = []
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
 
 [tool.mypy]
 mypy_path = "src"
