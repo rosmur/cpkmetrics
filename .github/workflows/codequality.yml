@@ -1,0 +1,6 @@
+name: ruff
+on: [push, pull_request]
+jobs:
+  ruff:
+    steps:
+      - uses: stral-sh/ruff-action@v3.2.2
