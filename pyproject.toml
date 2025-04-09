@@ -5,18 +5,17 @@ authors = [{ name = "Roshan M." }]
 description = "A featherweight library to compute process capability metrics"
 readme = "README.md"
 requires-python = ">=3.10"
-license = "Apache 2.0"
+license = "Apache-2.0"
+keywords = ["process capability", "cpk", "six sigma", "statistics"]
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",                  # Choose your license
     "Operating System :: OS Independent",
-    "Development Status :: 3 - Alpha",                         # Or Beta, Production/Stable
+    "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "Intended Audience :: Science/Research",
     "Intended Audience :: HW/Manufacturing/Quality Engineers",
     "Topic :: Scientific/Engineering",
 ]
-keywords = ["process capability", "cpk", "six sigma", "statistics"]
 dependencies = []
 
 [build-system]
