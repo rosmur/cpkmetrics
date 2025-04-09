@@ -13,7 +13,7 @@ classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "Intended Audience :: Science/Research",
-    "Intended Audience :: HW/Manufacturing/Quality Engineers",
+    "Intended Audience :: Manufacturing",
     "Topic :: Scientific/Engineering",
 ]
 dependencies = []
