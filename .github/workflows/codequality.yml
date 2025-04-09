@@ -4,4 +4,4 @@ jobs:
   ruff:
     runs-on: macos-latest
     steps:
-      - uses: stral-sh/ruff-action@v3.2.2
+      - uses: astral-sh/ruff-action@v3.2.2
