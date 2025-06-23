@@ -27,7 +27,7 @@ build-backend = "setuptools.build_meta"
 
 [tool.mypy]
 mypy_path = "src"
-exclude = ['^build/', '^.venv/', '^tests/', 'temp/', 'examples/']
+exclude = ['^build/', '^.venv/', '^tests/', 'temp/.*', 'examples/.*']
 
 [tool.ruff]
 line-length = 100
