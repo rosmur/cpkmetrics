@@ -101,16 +101,14 @@ class ProcessCapability:
 
         # Calculate metrics requiring both USL and LSL
         if self._usl is not None and self._lsl is not None:
-            spec_range = self._usl - self._lsl
-            spec_midpoint = (self._usl + self._lsl) / 2
+            spec_range: float = self._usl - self._lsl
+            spec_midpoint: float = (self._usl + self._lsl) / 2
 
             # Cp: Process potential
             self._cp = spec_range / (6 * self._stddev)
 
             # Cpa: Process accuracy/centering
-            self._cpa = (self._mean - spec_midpoint) / (
-                self._usl - self._lsl
-            )  # ! Need to check if formula is correct
+            self._cpa = (self._mean - spec_midpoint) / spec_range
             self._cpa_rating = self._calculate_cpa_rating()
 
         # Calculate metrics requiring at least one limit
@@ -239,7 +237,7 @@ class ProcessCapability:
         return self._cpa_rating
 
     @property
-    def sigma_level(self) -> str | float | None:
+    def sigma_level(self) -> str | None:
         """
         The sigma level that the process is operating at: it is 3 Sigma level if it is 1-1.33, 4 Sigma between 1.33-1.67, 5 Sigma between 1.67-2 and so forth.
         It is numerically effectively the value of Cpk if there was no division by 3, i.e. it is equal to Cpk multiplied by 3 and rounded down to the nearest integer.
@@ -247,7 +245,7 @@ class ProcessCapability:
         if self._sigma_level_raw is None:
             return None
         else:
-            sigma_level_display = self._sigma_level_raw // 1
+            sigma_level_display: float = self._sigma_level_raw // 1
             return f"{sigma_level_display:.0f}\u03c3"
 
     def _calculate_cpk_rating(self) -> str:
