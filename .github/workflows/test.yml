@@ -21,12 +21,11 @@ jobs:
                 python-version: '3.10'  # Specify the Python version you want to use
     
             # Install Python dependencies and create environment
-            - name: Create venv and Install dependencies
+            - name: Create venv, Install dependencies, Install the module and run tests
               run: |
                 python -m venv .venv
                 source .venv/bin/activate
                 python -m pip install --upgrade pip
                 pip install pytest
                 pip install -e .
-            - name: Run tests
-              run: pytest
+                pytest
