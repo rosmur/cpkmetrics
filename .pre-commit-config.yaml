@@ -1,32 +1,37 @@
 repos:
-- repo: https://github.com/astral-sh/ruff-pre-commit
-  # Ruff version.
-  rev: v0.7.3
-  hooks:
-    # Run the linter.
-    - id: ruff
-      args: [ --fix]
-    # Run the formatter.
-    - id: ruff-format
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version.
+    rev: v0.7.3
+    hooks:
+      # Run the linter.
+      - id: ruff
+        args: [--fix]
+      # Run the formatter.
+      - id: ruff-format
 
-- repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v1.13.0
-  hooks:
-    - id: mypy
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.13.0
+    hooks:
+      - id: mypy
 
-- repo: https://github.com/econchick/interrogate
-  rev: 1.7.0
-  hooks:
-    - id: interrogate
-      pass_filenames: false  # needed if excluding files with pyproject.toml or setup.cfg
+  - repo: https://github.com/facebook/pyrefly
+    rev: main
+    hooks:
+      - id: pyrefly-typecheck
 
-- repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v5.0.0
-  hooks:
-    - id: check-ast
-    - id: check-case-conflict
-    - id: check-executables-have-shebangs
-    - id: check-json
-    - id: check-shebang-scripts-are-executable
-    - id: check-toml
-    - id: check-yaml
+  - repo: https://github.com/econchick/interrogate
+    rev: 1.7.0
+    hooks:
+      - id: interrogate
+        pass_filenames: false # needed if excluding files with pyproject.toml or setup.cfg
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-ast
+      - id: check-case-conflict
+      - id: check-executables-have-shebangs
+      - id: check-json
+      - id: check-shebang-scripts-are-executable
+      - id: check-toml
+      - id: check-yaml
