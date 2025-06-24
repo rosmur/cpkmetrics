@@ -68,8 +68,26 @@ LSL = 6
 
 # Create an instance of the ProcessCapability class with the provided parameters. Instantiation also automatically prints results to the terminal (unless you pass print_results=False arg)
 pc = ProcessCapability(mean, stddev, USL, LSL)
+```
 
-# You can also access individual items directly through the corrresponding property
+This will print out:
+
+```
+| Metric                          | Value   |
+|-------------------------------------------|
+| Process Capability              | 1.333   |
+| Process Capability Index        | 1.333   |
+| Process Capability Upper        | 1.333   |
+| Process Capability Lower        | 1.333   |
+| Process Accuracy                | 0.000   |
+| Process Sigma Level             | 4σ      |
+| Process Capability Index Rating | Great   |
+| Process Accuracy Rating         | Level A |
+```
+
+You can also access individual items directly through the corrresponding property:
+
+```python
 cpk = pc.process_capability_index
 
 print(f"The Cpk is {round(cpk, 2)}")
