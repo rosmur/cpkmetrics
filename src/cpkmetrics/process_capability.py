@@ -5,6 +5,8 @@ This module defines the main logic for the process capability class. Minimal des
 
 """
 
+from builtins import float
+
 from typing import Optional
 
 from .utils.tableprinter import print_table
@@ -43,6 +45,16 @@ class ProcessCapability:
         self._stddev = float(stddev)
         self._usl = float(usl) if usl is not None else None
         self._lsl = float(lsl) if lsl is not None else None
+
+        # Initialize values to None (instead of needing separate declarations in conditionals)
+        self._cp: float | None = None
+        self._cpa: float | None = None
+        self._cpa_rating: str | None = None
+        self._cpu: float | None = None
+        self._cpl: float | None = None
+        self._cpk: float | None = None
+        self._sigma_level_raw: float | None = None
+        self._cpk_rating: str | None = None
 
         self._calculate_metrics()
 
@@ -87,16 +99,6 @@ class ProcessCapability:
     def _calculate_metrics(self):
         """Calculates all process capability metrics."""
 
-        # Initialize values to None (instead of needing separate declarations in conditionals)
-        self._cp = None
-        self._cpa = None
-        self._cpa_rating = None
-        self._cpu = None
-        self._cpl = None
-        self._cpk = None
-        self._sigma_level = None
-        self._cpk_rating = None
-
         # Calculate metrics requiring both USL and LSL
         if self._usl is not None and self._lsl is not None:
             spec_range = self._usl - self._lsl
@@ -128,7 +130,7 @@ class ProcessCapability:
 
         # Calculate Sigma Level and Cpk Rating
         if self.process_capability_index is not None:
-            self._sigma_level = self.process_capability_index * 3
+            self._sigma_level_raw = self.process_capability_index * 3
             self._cpk_rating = self._calculate_cpk_rating()
 
     # All metrics items calculated above are made available as read-only properties from attributes with the following 8 decorators
@@ -242,17 +244,11 @@ class ProcessCapability:
         The sigma level that the process is operating at: it is 3 Sigma level if it is 1-1.33, 4 Sigma between 1.33-1.67, 5 Sigma between 1.67-2 and so forth.
         It is numerically effectively the value of Cpk if there was no division by 3, i.e. it is equal to Cpk multiplied by 3 and rounded down to the nearest integer.
         """
-        if self._sigma_level is None:
+        if self._sigma_level_raw is None:
             return None
-        elif self._sigma_level <= 0:
-            return "Completely out of specification"
-        elif 0 < self._sigma_level <= 9:
-            sigma_level_display = self._sigma_level // 1
-            return f"{sigma_level_display:.0f}\u03c3"
-        elif self._sigma_level > 9:
-            return "Abnormally High"
         else:
-            raise ValueError
+            sigma_level_display = self._sigma_level_raw // 1
+            return f"{sigma_level_display:.0f}\u03c3"
 
     def _calculate_cpk_rating(self) -> str:
         """
@@ -261,7 +257,10 @@ class ProcessCapability:
         Returns:
         - str: The rating of the Cpk value.
         """
-        cpk: float = self._cpk  # mypy driven assignment
+
+        # Type checker driven assignment (guard clause already placed before method call)
+        cpk: float = self._cpk  # type: ignore
+
         if cpk <= 0:
             return "Abnormally Poor"
         elif 0 < cpk <= 0.5:
@@ -286,7 +285,10 @@ class ProcessCapability:
         Returns:
         - str: The rating of the Cpa value.
         """
-        cpa: float = abs(self._cpa)
+
+        # Type checker driven assignment (guard clause already placed before method call)
+        cpa: float = abs(self._cpa)  # type: ignore
+
         if cpa < 0.125:
             return "Level A"
         elif cpa < 0.25:
