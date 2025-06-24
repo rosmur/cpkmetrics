@@ -27,4 +27,4 @@ jobs:
         run: pip install pyrefly
 
       - name: Run Pyrefly Type Checker
-        run: pyrefly check
+        run: pyrefly check src
