@@ -1,5 +1,6 @@
 # C3.7S
 
+import re
 import pytest
 from cpkmetrics.process_capability import ProcessCapability
 
@@ -58,7 +59,7 @@ class TestProcessCapability:
         """Test initialization with invalid inputs."""
         monkeypatch.setattr("cpkmetrics.utils.tableprinter.print_table", lambda x: None)
 
-        with pytest.raises(expected_error, match=expected_message):
+        with pytest.raises(expected_error, match=re.escape(expected_message)):
             ProcessCapability(mean=mean, stddev=stddev, usl=usl, lsl=lsl)
 
     @pytest.mark.parametrize(
@@ -249,8 +250,8 @@ class TestProcessCapability:
     @pytest.mark.parametrize(
         "cpk, expected_sigma_level",
         [
-            (-0.5, "Completely out of specification"),
-            (0, "Completely out of specification"),
+            (-0.5, "-2σ"),
+            (0, "0σ"),
             (0.34, "1σ"),
             (0.67, "2σ"),
             (1, "3σ"),
@@ -260,7 +261,7 @@ class TestProcessCapability:
             (2.34, "7σ"),
             (2.67, "8σ"),
             (3, "9σ"),
-            (3.33, "Abnormally High"),
+            (3.33, "9σ"),
         ],
     )
     def test_sigma_level_direct(self, cpk, expected_sigma_level):
@@ -269,7 +270,7 @@ class TestProcessCapability:
 
         # Set the internal attributes directly for testing
         pc._cpk = cpk
-        pc._sigma_level = cpk * 3
+        pc._sigma_level_raw = cpk * 3
 
         assert pc.sigma_level == expected_sigma_level
 
