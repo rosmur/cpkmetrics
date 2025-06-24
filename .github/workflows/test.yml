@@ -1,0 +1,32 @@
+name: Pytest Testing
+
+on:
+
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+    workflow_dispatch:  # Allows manual triggering from the GitHub UI
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+    
+        steps:
+            - name: Check out code
+              uses: actions/checkout@v4
+    
+            - name: Set up Python
+              uses: actions/setup-python@v5
+              with:
+                python-version: '3.10'  # Specify the Python version you want to use
+    
+            # Install Python dependencies and create environment
+            - name: Create venv and Install dependencies
+              run: |
+                python -m venv .venv
+                source .venv/bin/activate
+                python -m pip install --upgrade pip
+                pip install -e .
+            - name: Run tests
+              run: pytest
