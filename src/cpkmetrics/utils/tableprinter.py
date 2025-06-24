@@ -6,7 +6,7 @@ A lightweight utility to enable a pretty format for printing out metrics. Curren
 """
 
 
-def print_table(data):
+def print_table(data: dict[str, float | str | None]) -> None:
     """Prints a table of metrics and their values to the console.
 
     Args:

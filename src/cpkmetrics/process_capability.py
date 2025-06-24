@@ -21,7 +21,7 @@ class ProcessCapability:
         stddev: float,
         usl: Optional[float] = None,
         lsl: Optional[float] = None,
-        print_results=True,
+        print_results: bool = True,
     ):
         """
         Initialize the ProcessCapability class with the necessary parameters.
@@ -55,7 +55,7 @@ class ProcessCapability:
         stddev: float,
         usl: Optional[float],
         lsl: Optional[float],
-    ):
+    ) -> None:
         """Validates the input parameters.
 
         Raises:
@@ -135,7 +135,7 @@ class ProcessCapability:
     #     The property methods are valuable because they provide read-only access to the calculated metrics, preventing accidental modification of these values from outside the class. They also encapsulate the internal attribute names, allowing changing the internal representation without affecting the external interface. The sigma_level property demonstrates the ability to perform calculations or logic before returning a value. Removing them would expose the internal attributes directly, making the code more fragile and less maintainable.
 
     @property
-    def metrics(self) -> dict:
+    def metrics(self) -> dict[str, float | str | None]:
         """Dictionary containing all calculated metrics and ratings."""
 
         metrics_compilation: dict = {
@@ -237,7 +237,7 @@ class ProcessCapability:
         return self._cpa_rating
 
     @property
-    def sigma_level(self):
+    def sigma_level(self) -> str | float | None:
         """
         The sigma level that the process is operating at: it is 3 Sigma level if it is 1-1.33, 4 Sigma between 1.33-1.67, 5 Sigma between 1.67-2 and so forth.
         It is numerically effectively the value of Cpk if there was no division by 3, i.e. it is equal to Cpk multiplied by 3 and rounded down to the nearest integer.
