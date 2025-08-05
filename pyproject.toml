@@ -29,6 +29,9 @@ build-backend = "setuptools.build_meta"
 mypy_path = "src"
 exclude = ['^build/', '^.venv/', '^tests/', 'temp/.*', 'examples/.*']
 
+[tool.pyrefly]
+project-includes = ["src"]
+
 [tool.ruff]
 line-length = 100
 
