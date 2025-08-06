@@ -5,8 +5,6 @@ This module defines the main logic for the process capability class. Minimal des
 
 """
 
-from builtins import float
-
 from typing import Optional
 
 from .utils.tableprinter import print_table
