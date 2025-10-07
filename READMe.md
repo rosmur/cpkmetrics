@@ -118,3 +118,4 @@ Project uses a modern toolchain to assist in this:
 - **Testing:** `pytest` and `coverage`
 - **Code Quality:** Linting, Formatting through `ruff` Static Analysis through `mypy`. Enforced through pre-commmit and GitHub Actions
 - **Documentation:** Docstrings are enforced with `interrogate` at 90% threshold
+- **AI Usage:** No AI was used in the original writing of this repo. However, AI usage in PRs and contributions are fine as long as all code and content is human reviewed
