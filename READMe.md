@@ -4,7 +4,7 @@
 
 ## Installation
 
-### Standard Installation [Recommended]
+### Standard Installation
 
 Execute the following command in the terminal:
 
